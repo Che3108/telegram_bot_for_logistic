@@ -1,34 +1,24 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
-# Импорт библиотек
+### Импорт библиотек ### 
 import pandas as pd
 import telebot
 import re
 
+### Константы ### 
 # Имя файла с базой
 BASE_FILE_NAME = 'base_cargo.csv'
-
 # Файл, содержащий api-key
 AUTH_FILE_NAME = 'auth_info.txt'
-
 # Сообщение-приветствие
 WELCOME_MESSAGE = f'''Вас приветствует информационный сервис службы доставки Che-logistic.
 Здесь Вы можете узнать статус Вашего отправления. Для этого просто введите его номер в поле ввода сообщения.
 Напоминаем, что номер отправления был отправлен Вам смс-сообщением и начинается с цифр 38.
-
 <b>Che-logistic - доставим даже слона!</b>'''
-
 # Сообщение об ошибке
 ERROR_MESSAGE = "Для получения информации о статусе отправления введите, пожалуйста, верный номер отправления."
 
-# Читаем файл с базой
-base = pd.read_csv(BASE_FILE_NAME, dtype = {'id':str})
-
-# Читаем файл с ключем
-with open(AUTH_FILE_NAME, 'r', encoding='utf-8') as f:
-    auth_info = f.readline()
-
-# Функции 
+### Функции ###
 def cheking_code(code):
     '''
     cheking_code - функция для проверки кода посылки
@@ -76,8 +66,15 @@ def answer(code):
         answer_message = f'К сожалению, нам не удалось найти отправление с номером {code}.\
  Дополнительную информацию вы можете получить по телефону 9-900-900-99-99.'
     return answer_message
+  
+### Создание и описание работы бота ###
+# Читаем файл с базой
+base = pd.read_csv(BASE_FILE_NAME, dtype = {'id':str})
 
-# Создание и описание работы бота
+# Читаем файл с ключем
+with open(AUTH_FILE_NAME, 'r', encoding='utf-8') as f:
+    auth_info = f.readline()
+    
 # Создание бота
 bot = telebot.TeleBot(auth_info)
 
